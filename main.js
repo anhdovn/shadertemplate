@@ -2,8 +2,8 @@ import "/style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import * as dat from "lil-gui";
-import flagVertexShader from "/shaders/flag/vertex.glsl";
-import flagFragmentShader from "/shaders/flag/fragment.glsl";
+import vertexShader from "/shaders/learnNikLever/vertex.glsl";
+import fragmentShader from "/shaders/learnNikLever/fragment.glsl";
 
 /**
  * Base
@@ -27,20 +27,37 @@ const geometry = new THREE.PlaneGeometry(2, 2, 32, 32);
 const texture = new THREE.TextureLoader().load("/textures/flag-french.jpg");
 console.log(texture);
 // Material
+const uniforms = {
+  uMouse: { value: { x: 0.0, y: 0.0 } },
+  uResolution: { value: { x: window.innerWidth, y: window.innerHeight } }
+}
+
 const material = new THREE.ShaderMaterial({
-  vertexShader: flagVertexShader,
-  fragmentShader: flagFragmentShader,
+  vertexShader: vertexShader,
+  fragmentShader: fragmentShader,
   side: THREE.DoubleSide,
-  uniforms: {
-    uTime: { value: 0 },
-    uFrequency: { value: new THREE.Vector2(10, 10) },
-    uTexture: { value: texture },
-  },
+  uniforms: uniforms
 });
 
 // Mesh
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
+
+
+/**
+ * Mousemove
+*/
+const mouseMove = (event) => {
+  uniforms.uMouse.value.x = event.touches ? event.touches[0].clientX : event.clientX
+  uniforms.uMouse.value.y = event.touches ? event.touches[0].clientY : event.clientY
+}
+
+if ('ontouchstart' in window) {
+  document.addEventListener('touchmove', mouseMove)
+} else {
+  document.addEventListener('mousemove', mouseMove)
+}
+
 
 /**
  * Sizes
@@ -62,6 +79,10 @@ window.addEventListener("resize", () => {
   // Update renderer
   renderer.setSize(sizes.width, sizes.height);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  // Update Resolution
+  uniforms.uResolution.value.x = window.innerWidth
+  uniforms.uResolution.value.y = window.innerHeight
 });
 
 /**
@@ -82,6 +103,7 @@ scene.add(camera);
 // Controls
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
+controls.enabled = false;
 
 /**
  * Renderer
@@ -101,7 +123,7 @@ const tick = () => {
   controls.update();
   const elapsedTime = clock.getElapsedTime();
   // update uTime
-  material.uniforms.uTime.value = elapsedTime;
+  // material.uniforms.uTime.value = elapsedTime;
 
   // Render
   renderer.render(scene, camera);
