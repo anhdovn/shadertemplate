@@ -21,7 +21,7 @@ const scene = new THREE.Scene();
  * Test mesh
  */
 // Geometry
-const geometry = new THREE.PlaneGeometry(1, 1, 32, 32);
+const geometry = new THREE.PlaneGeometry(2, 2, 32, 32);
 
 // Texture
 const texture = new THREE.TextureLoader().load("/textures/flag-french.jpg");
@@ -68,13 +68,15 @@ window.addEventListener("resize", () => {
  * Camera
  */
 // Base camera
-const camera = new THREE.PerspectiveCamera(
-  75,
-  sizes.width / sizes.height,
+const camera = new THREE.OrthographicCamera(
+  -1,
+  1,
+  1,
+  -1,
   0.1,
-  100
+  10
 );
-camera.position.set(0.25, -0.25, 1);
+camera.position.set(0, 0, 1);
 scene.add(camera);
 
 // Controls
