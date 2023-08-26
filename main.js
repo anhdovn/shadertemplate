@@ -28,6 +28,7 @@ const texture = new THREE.TextureLoader().load("/textures/flag-french.jpg");
 console.log(texture);
 // Material
 const uniforms = {
+  uTime: { value: 0.0 },
   uMouse: { value: { x: 0.0, y: 0.0 } },
   uResolution: { value: { x: window.innerWidth, y: window.innerHeight } }
 }
@@ -123,7 +124,7 @@ const tick = () => {
   controls.update();
   const elapsedTime = clock.getElapsedTime();
   // update uTime
-  // material.uniforms.uTime.value = elapsedTime;
+  uniforms.uTime.value = elapsedTime
 
   // Render
   renderer.render(scene, camera);

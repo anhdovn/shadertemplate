@@ -1,6 +1,5 @@
-uniform vec2 uMouse;
-uniform vec2 uResolution;
+uniform float uTime;
 
 void main() {
-    gl_FragColor = vec4(uMouse.x / uResolution.x, uMouse.y / uResolution.y, 0.0, 1.0);
+    gl_FragColor = vec4((sin(uTime) + 1.0) / 2.0, (cos(uTime) + 1.0) / 2.0, (sin(uTime) + 1.0) / 2.0, 1.0);
 }
