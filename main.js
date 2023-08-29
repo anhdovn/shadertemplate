@@ -9,7 +9,7 @@ import fragmentShader from "/shaders/learnNikLever/fragment.glsl";
  * Base
  */
 // Debug
-const gui = new dat.GUI();
+// const gui = new dat.GUI();
 
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
@@ -30,35 +30,37 @@ console.log(texture);
 const uniforms = {
   uTime: { value: 0.0 },
   uMouse: { value: { x: 0.0, y: 0.0 } },
-  uResolution: { value: { x: window.innerWidth, y: window.innerHeight } }
-}
+  uResolution: { value: { x: window.innerWidth, y: window.innerHeight } },
+};
 
 const material = new THREE.ShaderMaterial({
   vertexShader: vertexShader,
   fragmentShader: fragmentShader,
   side: THREE.DoubleSide,
-  uniforms: uniforms
+  uniforms: uniforms,
 });
 
 // Mesh
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 
-
 /**
  * Mousemove
-*/
+ */
 const mouseMove = (event) => {
-  uniforms.uMouse.value.x = event.touches ? event.touches[0].clientX : event.clientX
-  uniforms.uMouse.value.y = event.touches ? event.touches[0].clientY : event.clientY
-}
+  uniforms.uMouse.value.x = event.touches
+    ? event.touches[0].clientX
+    : event.clientX;
+  uniforms.uMouse.value.y = event.touches
+    ? event.touches[0].clientY
+    : event.clientY;
+};
 
-if ('ontouchstart' in window) {
-  document.addEventListener('touchmove', mouseMove)
+if ("ontouchstart" in window) {
+  document.addEventListener("touchmove", mouseMove);
 } else {
-  document.addEventListener('mousemove', mouseMove)
+  document.addEventListener("mousemove", mouseMove);
 }
-
 
 /**
  * Sizes
@@ -82,22 +84,15 @@ window.addEventListener("resize", () => {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
   // Update Resolution
-  uniforms.uResolution.value.x = window.innerWidth
-  uniforms.uResolution.value.y = window.innerHeight
+  uniforms.uResolution.value.x = window.innerWidth;
+  uniforms.uResolution.value.y = window.innerHeight;
 });
 
 /**
  * Camera
  */
 // Base camera
-const camera = new THREE.OrthographicCamera(
-  -1,
-  1,
-  1,
-  -1,
-  0.1,
-  10
-);
+const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
 camera.position.set(0, 0, 1);
 scene.add(camera);
 
@@ -124,7 +119,7 @@ const tick = () => {
   controls.update();
   const elapsedTime = clock.getElapsedTime();
   // update uTime
-  uniforms.uTime.value = elapsedTime
+  uniforms.uTime.value = elapsedTime;
 
   // Render
   renderer.render(scene, camera);

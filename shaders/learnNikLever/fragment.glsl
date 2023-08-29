@@ -1,5 +1,22 @@
-uniform float uTime;
+uniform vec2 uResolution;
+varying vec2 vUv;
+varying vec3 vPosition;
+
+float react(vec2 pos, vec2 size, vec2 center) {
+    vec2 p = pos - center;
+    float halfX = size.x * 0.5;
+    float halfY = size.y * 0.5;
+
+    float hoz = step(-halfX, p.x) - step(halfX, p.x);
+    float ver = step(-halfY, p.y) - step(halfY, p.y);
+
+    return hoz * ver;
+}
 
 void main() {
-    gl_FragColor = vec4((sin(uTime) + 1.0) / 2.0, (cos(uTime) + 1.0) / 2.0, (sin(uTime) + 1.0) / 2.0, 1.0);
+
+    float inReact = react(vPosition.xy, vec2(1.0, 1.0), vec2(0.0, 0.0));
+    vec2 color = vec2(1.0, 1.0) * inReact;
+
+    gl_FragColor = vec4(color, 0.0, 1.0);
 }
