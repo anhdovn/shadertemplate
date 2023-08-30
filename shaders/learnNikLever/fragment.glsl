@@ -15,8 +15,9 @@ float react(vec2 pos, vec2 size, vec2 center) {
 
 void main() {
 
-    float inReact = react(vPosition.xy, vec2(1.0, 1.0), vec2(0.0, 0.0));
-    vec2 color = vec2(1.0, 1.0) * inReact;
+    float inReact1 = react(vPosition.xy, vec2(0.25, 0.125), vec2(0.5, 0.75));
+    float inReact2 = react(vPosition.xy, vec2(0.25, 0.125), vec2(-0.5, 0.75));
+    vec2 color = vec2(1.0, 1.0) * inReact1 + vec2(1.0, 0.0) * inReact2;
 
     gl_FragColor = vec4(color, 0.0, 1.0);
 }
