@@ -11,8 +11,8 @@ float react(vec2 pos, vec2 size, vec2 center) {
     vec2 pt = pos - center;
     float haftSizeX = size.x * 0.5;
     float haftSizeY = size.y * 0.5;
-    float hoz = step(-haftSizeX, pos.x) - step(haftSizeX, pos.x);
-    float ver = step(-haftSizeY, pos.y) - step(haftSizeY, pos.y);
+    float hoz = step(-haftSizeX, pt.x) - step(haftSizeX, pt.x);
+    float ver = step(-haftSizeY, pt.y) - step(haftSizeY, pt.y);
     return hoz * ver;
 }
 
